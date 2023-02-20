@@ -7,7 +7,7 @@
     <meta name="generator" content="ExDoc v0.29.0">
     <meta name="project" content="Wanda v0.1.0">
 
-    <title>Wanda.Messaging.Mapper — Wanda v0.1.0</title>
+    <title>WandaWeb.Auth.AccessToken — Wanda v0.1.0</title>
     <link rel="stylesheet" href="dist/html-elixir-2YOS5DIE.css" />
 
     <script src="dist/handlebars.runtime-NWIB6V2M.js"></script>
@@ -99,19 +99,20 @@ Wanda
 </button>
 
 
-    <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/messaging/mapper.ex#L1" title="View Source" class="view-source" rel="help">
+    <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/auth/access_token.ex#L1" title="View Source" class="view-source" rel="help">
       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
       <span class="sr-only">View Source</span>
     </a>
 
-  <span translate="no">Wanda.Messaging.Mapper</span> 
+  <span translate="no">WandaWeb.Auth.AccessToken</span> 
   <small class="app-vsn" translate="no">(Wanda v0.1.0)</small>
 
 </h1>
 
 
   <section id="moduledoc">
-<p>Maps domain structures to integration events.</p>
+<p>  Jwt Token is the module responsible for creating a proper jwt access token.
+  Uses Joken as jwt base library</p>
   </section>
 
 
@@ -131,41 +132,41 @@ Wanda
 
       <div class="summary-row">
         <div class="summary-signature">
-          <a href="#from_execution_requested/1" translate="no">from_execution_requested(execution_requested)</a>
+          <a href="#generate_and_sign/2" translate="no">generate_and_sign(extra_claims \\ %{}, key \\ __default_signer__())</a>
 
         </div>
+
+          <div class="summary-synopsis"><p>Combines <code class="inline">generate_claims/1</code> and <code class="inline">encode_and_sign/2</code></p></div>
 
       </div>
 
       <div class="summary-row">
         <div class="summary-signature">
-          <a href="#from_facts_gathererd/1" translate="no">from_facts_gathererd(facts_gathered)</a>
+          <a href="#generate_and_sign!/2" translate="no">generate_and_sign!(extra_claims \\ %{}, key \\ __default_signer__())</a>
 
         </div>
+
+          <div class="summary-synopsis"><p>Same as <a href="#generate_and_sign/2"><code class="inline">generate_and_sign/2</code></a> but raises if error</p></div>
 
       </div>
 
       <div class="summary-row">
         <div class="summary-signature">
-          <a href="#to_execution_completed/1" translate="no">to_execution_completed(result)</a>
+          <a href="#verify_and_validate/3" translate="no">verify_and_validate(bearer_token, key \\ __default_signer__(), context \\ %{})</a>
 
         </div>
+
+          <div class="summary-synopsis"><p>Combines <code class="inline">verify/2</code> and <code class="inline">validate/2</code></p></div>
 
       </div>
 
       <div class="summary-row">
         <div class="summary-signature">
-          <a href="#to_execution_started/3" translate="no">to_execution_started(execution_id, group_id, targets)</a>
+          <a href="#verify_and_validate!/3" translate="no">verify_and_validate!(bearer_token, key \\ __default_signer__(), context \\ %{})</a>
 
         </div>
 
-      </div>
-
-      <div class="summary-row">
-        <div class="summary-signature">
-          <a href="#to_facts_gathering_requested/4" translate="no">to_facts_gathering_requested(execution_id, group_id, targets, checks)</a>
-
-        </div>
+          <div class="summary-synopsis"><p>Same as <a href="#verify_and_validate/2"><code class="inline">verify_and_validate/2</code></a> but raises if error</p></div>
 
       </div>
 
@@ -183,16 +184,20 @@ Wanda
 Functions
     </h1>
     <div class="functions-list">
-<section class="detail" id="from_execution_requested/1">
+<section class="detail" id="generate_and_sign/2">
+
+    <span id="generate_and_sign/0"></span>
+
+    <span id="generate_and_sign/1"></span>
 
   <div class="detail-header">
-    <a href="#from_execution_requested/1" class="detail-link" title="Link to this function">
+    <a href="#generate_and_sign/2" class="detail-link" title="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
       <span class="sr-only">Link to this function</span>
     </a>
-    <h1 class="signature" translate="no">from_execution_requested(execution_requested)</h1>
+    <h1 class="signature" translate="no">generate_and_sign(extra_claims \\ %{}, key \\ __default_signer__())</h1>
 
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/messaging/mapper.ex#L60" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/auth/access_token.ex#L7" class="view-source" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -204,28 +209,28 @@ Functions
 
       <div class="specs">
 
-          <pre translate="no"><span class="attribute">@spec</span> from_execution_requested(Trento.Checks.V1.ExecutionRequested.t()) :: %{
-  execution_id: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
-  group_id: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
-  targets: [<a href="Wanda.Executions.Target.html#t:t/0">Wanda.Executions.Target.t</a>()],
-  env: %{required(<a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()) =&gt; <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">boolean</a>() | <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">number</a>() | <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>()}
-}</pre>
+          <pre translate="no"><span class="attribute">@spec</span> generate_and_sign(<a href="https://hexdocs.pm/joken/2.5.0/Joken.html#t:claims/0">Joken.claims</a>(), <a href="https://hexdocs.pm/joken/2.5.0/Joken.html#t:signer_arg/0">Joken.signer_arg</a>()) ::
+  {:ok, <a href="https://hexdocs.pm/joken/2.5.0/Joken.html#t:bearer_token/0">Joken.bearer_token</a>(), <a href="https://hexdocs.pm/joken/2.5.0/Joken.html#t:claims/0">Joken.claims</a>()} | {:error, <a href="https://hexdocs.pm/joken/2.5.0/Joken.html#t:error_reason/0">Joken.error_reason</a>()}</pre>
 
       </div>
 
-
+<p>Combines <code class="inline">generate_claims/1</code> and <code class="inline">encode_and_sign/2</code></p>
   </section>
 </section>
-<section class="detail" id="from_facts_gathererd/1">
+<section class="detail" id="generate_and_sign!/2">
+
+    <span id="generate_and_sign!/0"></span>
+
+    <span id="generate_and_sign!/1"></span>
 
   <div class="detail-header">
-    <a href="#from_facts_gathererd/1" class="detail-link" title="Link to this function">
+    <a href="#generate_and_sign!/2" class="detail-link" title="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
       <span class="sr-only">Link to this function</span>
     </a>
-    <h1 class="signature" translate="no">from_facts_gathererd(facts_gathered)</h1>
+    <h1 class="signature" translate="no">generate_and_sign!(extra_claims \\ %{}, key \\ __default_signer__())</h1>
 
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/messaging/mapper.ex#L80" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/auth/access_token.ex#L7" class="view-source" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -237,50 +242,27 @@ Functions
 
       <div class="specs">
 
-          <pre translate="no"><span class="attribute">@spec</span> from_facts_gathererd(Trento.Checks.V1.FactsGathered.t()) :: %{
-  execution_id: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
-  group_id: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
-  agent_id: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(),
-  facts_gathered: [<a href="Wanda.Executions.Fact.html#t:t/0">Wanda.Executions.Fact.t</a>() | <a href="Wanda.Executions.FactError.html#t:t/0">Wanda.Executions.FactError.t</a>()]
-}</pre>
+          <pre translate="no"><span class="attribute">@spec</span> generate_and_sign!(<a href="https://hexdocs.pm/joken/2.5.0/Joken.html#t:claims/0">Joken.claims</a>(), <a href="https://hexdocs.pm/joken/2.5.0/Joken.html#t:signer_arg/0">Joken.signer_arg</a>()) :: <a href="https://hexdocs.pm/joken/2.5.0/Joken.html#t:bearer_token/0">Joken.bearer_token</a>()</pre>
 
       </div>
 
-
+<p>Same as <a href="#generate_and_sign/2"><code class="inline">generate_and_sign/2</code></a> but raises if error</p>
   </section>
 </section>
-<section class="detail" id="to_execution_completed/1">
+<section class="detail" id="verify_and_validate/3">
+
+    <span id="verify_and_validate/1"></span>
+
+    <span id="verify_and_validate/2"></span>
 
   <div class="detail-header">
-    <a href="#to_execution_completed/1" class="detail-link" title="Link to this function">
+    <a href="#verify_and_validate/3" class="detail-link" title="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
       <span class="sr-only">Link to this function</span>
     </a>
-    <h1 class="signature" translate="no">to_execution_completed(result)</h1>
+    <h1 class="signature" translate="no">verify_and_validate(bearer_token, key \\ __default_signer__(), context \\ %{})</h1>
 
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/messaging/mapper.ex#L42" class="view-source" rel="help" title="View Source">
-       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
-       <span class="sr-only">View Source</span>
-     </a>
-
-
-  </div>
-
-  <section class="docstring">
-
-
-  </section>
-</section>
-<section class="detail" id="to_execution_started/3">
-
-  <div class="detail-header">
-    <a href="#to_execution_started/3" class="detail-link" title="Link to this function">
-      <i class="ri-link-m" aria-hidden="true"></i>
-      <span class="sr-only">Link to this function</span>
-    </a>
-    <h1 class="signature" translate="no">to_execution_started(execution_id, group_id, targets)</h1>
-
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/messaging/mapper.ex#L26" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/auth/access_token.ex#L7" class="view-source" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -292,24 +274,28 @@ Functions
 
       <div class="specs">
 
-          <pre translate="no"><span class="attribute">@spec</span> to_execution_started(<a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(), <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>(), [<a href="Wanda.Executions.Target.html#t:t/0">Wanda.Executions.Target.t</a>()]) ::
-  Trento.Checks.V1.ExecutionStarted.t()</pre>
+          <pre translate="no"><span class="attribute">@spec</span> verify_and_validate(<a href="https://hexdocs.pm/joken/2.5.0/Joken.html#t:bearer_token/0">Joken.bearer_token</a>(), <a href="https://hexdocs.pm/joken/2.5.0/Joken.html#t:signer_arg/0">Joken.signer_arg</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>()) ::
+  {:ok, <a href="https://hexdocs.pm/joken/2.5.0/Joken.html#t:claims/0">Joken.claims</a>()} | {:error, <a href="https://hexdocs.pm/joken/2.5.0/Joken.html#t:error_reason/0">Joken.error_reason</a>()}</pre>
 
       </div>
 
-
+<p>Combines <code class="inline">verify/2</code> and <code class="inline">validate/2</code></p>
   </section>
 </section>
-<section class="detail" id="to_facts_gathering_requested/4">
+<section class="detail" id="verify_and_validate!/3">
+
+    <span id="verify_and_validate!/1"></span>
+
+    <span id="verify_and_validate!/2"></span>
 
   <div class="detail-header">
-    <a href="#to_facts_gathering_requested/4" class="detail-link" title="Link to this function">
+    <a href="#verify_and_validate!/3" class="detail-link" title="Link to this function">
       <i class="ri-link-m" aria-hidden="true"></i>
       <span class="sr-only">Link to this function</span>
     </a>
-    <h1 class="signature" translate="no">to_facts_gathering_requested(execution_id, group_id, targets, checks)</h1>
+    <h1 class="signature" translate="no">verify_and_validate!(bearer_token, key \\ __default_signer__(), context \\ %{})</h1>
 
-      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda/messaging/mapper.ex#L34" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/trento-project/wanda/blob/main/lib/wanda_web/auth/access_token.ex#L7" class="view-source" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -319,7 +305,14 @@ Functions
 
   <section class="docstring">
 
+      <div class="specs">
 
+          <pre translate="no"><span class="attribute">@spec</span> verify_and_validate!(<a href="https://hexdocs.pm/joken/2.5.0/Joken.html#t:bearer_token/0">Joken.bearer_token</a>(), <a href="https://hexdocs.pm/joken/2.5.0/Joken.html#t:signer_arg/0">Joken.signer_arg</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>()) ::
+  <a href="https://hexdocs.pm/joken/2.5.0/Joken.html#t:claims/0">Joken.claims</a>()</pre>
+
+      </div>
+
+<p>Same as <a href="#verify_and_validate/2"><code class="inline">verify_and_validate/2</code></a> but raises if error</p>
   </section>
 </section>
 
