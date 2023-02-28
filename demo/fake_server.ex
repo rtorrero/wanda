@@ -15,8 +15,6 @@ defmodule Wanda.Executions.FakeServer do
     Messaging
   }
 
-  require Logger
-
   @impl true
   def start_execution(execution_id, group_id, targets, env, _config \\ []) do
     checks =
@@ -124,13 +122,8 @@ defmodule Wanda.Executions.FakeServer do
   end
 
   defp check_result_from_target(check_id, check_targets, result) do
-    Logger.debug("check_targets: #{inspect(check_targets)}\n\n\n\n\n")
-
     {_, check} = Catalog.get_check(check_id)
-
     expectation_evaluations = expectation_evaluations_from_check(check, result)
-
-    Logger.debug("expectation_evaluations: #{inspect(expectation_evaluations)}\n")
 
     expectation_results =
       Enum.map(
@@ -148,7 +141,8 @@ defmodule Wanda.Executions.FakeServer do
               Enum.map(check.facts, fn fact ->
                 build(:fact, check_id: check_id, name: fact.name)
               end),
-            expectation_evaluations: expectation_evaluations
+            expectation_evaluations: expectation_evaluations,
+            values: check.values
           )
         end),
       expectation_results: expectation_results,
